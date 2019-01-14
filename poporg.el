@@ -636,10 +636,6 @@ buffer instead."
            (prefix (nth 2 reg))
            (overlay (make-overlay start end)))
       (setq poporg-pre-window-configuration (current-window-configuration))
-      ;; Dim and protect the original text.
-      (overlay-put overlay 'face 'poporg-edited-face)
-      (overlay-put overlay 'intangible t)
-      (overlay-put overlay 'read-only t)
       ;; Initialize a popup edit buffer.
       (pop-to-buffer edit-buffer)
       (goto-char poporg-new-point)
@@ -762,9 +758,6 @@ Also update the overlay."
       (error "Not an edit buffer or original buffer vanished"))
     (when (buffer-modified-p)
       ;; Move everything back in place.
-      ;; Allow the inserter to edit the region.
-      (overlay-put overlay 'intangible nil)
-      (overlay-put overlay 'read-only nil)
       (let* ((start (overlay-start overlay))
              (end (overlay-end overlay)))
         (with-current-buffer buffer
@@ -775,8 +768,6 @@ Also update the overlay."
         (let ((require-final-newline nil)) (save-buffer))
         ;; This is manily to hide the `save-buffer' message
         (message "poporg: original buffer updated"))
-      (overlay-put overlay 'intangible t)
-      (overlay-put overlay 'read-only t))
     (with-current-buffer buffer (undo-boundary))
     (when with-save (with-current-buffer buffer (save-buffer)))))
 
