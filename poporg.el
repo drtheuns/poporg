@@ -767,7 +767,7 @@ Also update the overlay."
         ;; undo knows at what stage the buffer is unmodified
         (let ((require-final-newline nil)) (save-buffer))
         ;; This is manily to hide the `save-buffer' message
-        (message "poporg: original buffer updated"))
+        (message "poporg: original buffer updated")))
     (with-current-buffer buffer (undo-boundary))
     (when with-save (with-current-buffer buffer (save-buffer)))))
 
